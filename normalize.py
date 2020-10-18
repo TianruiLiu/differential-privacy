@@ -21,6 +21,9 @@ def denormalizeVal(val,minVal,maxVal):
     val = val * (maxVal-minVal) +minVal
     return val
 
+def denormalizeNoise(val,minVal,maxVal):
+    return val*(maxVal-minVal)
+
 if __name__=="__main__":
     df = pd.read_csv('test.csv')
     normalizeDatabase(df)

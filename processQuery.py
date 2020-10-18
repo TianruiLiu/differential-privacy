@@ -26,13 +26,14 @@ def processOneQuery(dataframe, conditionStringList, attribute, queryType,sensiti
         return noiseResult
     if (queryType=="Sum"):
         clearResult=trueResult(dataframe,conditionList,attribute,queryType)
-        noiseResult=clearResult+denormalizeVal(generateNoise(1,1),minVal,maxVal)
+        noise=generateNoise(sensitivity,paramLambda)
+        noiseResult=clearResult+denormalizeNoise(noise,minVal,maxVal)
         return noiseResult
     if (queryType=="Mean"):
         clearSumResult = trueResult(dataframe, conditionList, attribute, "Sum")
         clearCountResult = trueResult(dataframe,conditionList,attribute,"Count")
-        noise=generateNoise(1,1)
-        denormalizedNoise=denormalizeVal(noise,minVal,maxVal)
+        noise=generateNoise(sensitivity,paramLambda)
+        denormalizedNoise=denormalizeNoise(noise,minVal,maxVal)
         noiseSum = clearSumResult+denormalizedNoise
         noiseResult = noiseSum/clearCountResult
         return noiseResult
@@ -40,6 +41,7 @@ def processOneQuery(dataframe, conditionStringList, attribute, queryType,sensiti
 if __name__=="__main__":
     df = pd.read_csv('test.csv')
     conditionStringList=["Age > 30", "Age < 40"]
-    result=processOneQuery(df,conditionStringList,"Age", "Max", 1, 1)
-    print(result)
+    for i in range(100):
+        result=processOneQuery(df,conditionStringList,"Age", "Sum", 1, 10)
+        print(result)
 
