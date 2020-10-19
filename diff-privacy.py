@@ -10,34 +10,206 @@ Tianrui Liu; Qingru Zhang
 import csv
 import pandas as pd
 import sys
-import tkinter as tk
 import requests
 from PIL import Image, ImageTk
 from tkinter import filedialog
+import tkinter as tk 
+from tkinter import ttk 
+   
+  #--constant declaration
+LARGEFONT =("Verdana", 25) 
+HEIGHT=1000
+WIDTH=800
 
-#DECLARE CONSTANTS
-HEIGHT = 700
-WIDTH = 800
+class tkinterApp(tk.Tk): 
+      
+    # __init__ function for class tkinterApp  
+    def __init__(self, *args, **kwargs):  
+          
+        # __init__ function for class Tk 
+        tk.Tk.__init__(self, *args, **kwargs) 
 
-#INITIATION OF A GUI APP
-app = tk.Tk()
+        canvas=tk.Canvas(self,height=HEIGHT,width=WIDTH) 
+        canvas.pack()
 
-#--- Create a basic frame and canvas for the GUI
-canvas = tk.Canvas(app,height=HEIGHT, width=WIDTH)
-canvas.pack()
+        # creating a container 
+        container = tk.Frame(canvas,bg="#ebdada")    
+        container.place(relx=0.1,rely=0.1,relheight=0.8,relwidth=0.8)
+   
+        # initializing frames to an empty array 
+        self.frames = {}   
+   
+        # iterating through a tuple consisting 
+        # of the different page layouts 
+        for F in (StartPage, Page1, Page2): 
+   
+            frame = F(container, self) 
+   
+            # initializing frame of that object from 
+            # startpage, page1, page2 respectively with  
+            # for loop 
+            self.frames[F] = frame  
+   
+            frame.place(relx=0.1,rely=0.1,relheight=0.8,relwidth=0.8)
+   
+        self.show_frame(StartPage) 
+   
+    # to display the current frame passed as 
+    # parameter 
+    def show_frame(self, cont): 
+        frame = self.frames[cont] 
+        frame.tkraise() 
+   
+# first window frame startpage: import a file
+   
+class StartPage(tk.Frame): 
+    def __init__(self, parent, controller):  
+        tk.Frame.__init__(self, parent) 
+          
+        # label of frame Layout 2 
+        label = ttk.Label(self, text ="Import a CSV File", font = LARGEFONT) 
+          
+        # putting the grid in its place by using 
+        # grid 
+        label.grid(row = 0, column = 4, padx = 10, pady = 10)  
+        
+        # create an input button
+        def file_opener():
+            input = filedialog.askopenfile(initialdir="/")
+            df=pd.read_csv(input)
+            return df
 
-frame = tk.Frame(app,bg='#ebdada')
-frame.place(relx=0.1,rely=0.1,relwidth=0.9,relheight=0.9)
+        import_button= tk.Button(self, text="Select An Input File",command = lambda:file_opener(), bg='#d7c6cf',fg='#a2798f')
+        import_button.place(relx=0.3,rely=0.4,relwidth=0.4,relheight=0.2)
 
-#--- Create a first page for user to import their data file
-def import_data(data):
-    app.filename=filedialog.askopenfilename(initialdir="/user",
-                                            title="Select A File",
-                                            filetypes=(("excel files","*.xlsx"),("csv file","*.csv")))
-    df=pd.read_csv(app.filename)
-    if(len(df) == 0):       
-                tk.messagebox.showinfo('No Rows Selected', 'CSV has no rows') 
-                
-import_button= tk.Button(frame, text="Import Data",command=import_data, bg='#d7c6cf',fg='#a2798f')
-import_button.pack()
-app.mainloop()
+        # a button that connects to the next page
+        button1 = ttk.Button(self, text ="Next Page", 
+        command = lambda : controller.show_frame(Page1)) 
+      
+        # putting the button in its place by 
+        # using grid 
+        button1.place(relx=0.2,rely=0.8,relwidth=0.2,relheight=0.1)
+   
+           
+   
+   
+# second window frame page1: choose query type and lambda
+class Page1(tk.Frame): 
+      
+    def __init__(self, parent, controller): 
+          
+        tk.Frame.__init__(self, parent) 
+        label = ttk.Label(self, text ="Choose Query Type and Lambda", font = LARGEFONT) 
+        label.grid(row = 0, column = 4, padx = 10, pady = 10) 
+   
+        # button to show frame 2 with text 
+        # layout2 
+        button2 = ttk.Button(self, text ="Next Page", 
+                            command = lambda : controller.show_frame(Page2)) 
+      
+        # putting the button in its place by  
+        # using grid 
+        button2.place(relx=0.2,rely=0.8,relwidth=0.2,relheight=0.1)
+
+        # pick query type
+        def set_query_min():
+            global query_type
+            query_type="min"
+            print(query_type)
+            newlabel=tk.Label(self,text="Query Type Min Selected!")
+            newlabel.place(relx=0.5,rely=0.2,relwidth=0.4,relheight=0.1)
+
+        def set_query_max():
+            global query_type
+            query_type="max"
+            print(query_type)
+            button_min['bg']='red'
+            newlabel=tk.Label(self,text="Query Type Max Selected!")
+            newlabel.place(relx=0.5,rely=0.2,relwidth=0.4,relheight=0.1)
+
+        def set_query_mean():
+            global query_type
+            query_type="mean"
+            print(query_type)
+            button_min['bg']='red'
+            newlabel=tk.Label(self,text="Query Type Mean Selected!")
+            newlabel.place(relx=0.5,rely=0.2,relwidth=0.4,relheight=0.1)
+
+        def set_query_count():
+            global query_type
+            query_type="count"
+            print(query_type)
+            button_min['bg']='red'
+            newlabel=tk.Label(self,text="Query Type Count Selected!")
+            newlabel.place(relx=0.5,rely=0.2,relwidth=0.4,relheight=0.1)
+
+        def set_query_sum():
+            global query_type
+            query_type="sum"
+            print(query_type)
+            button_min['bg']='red'
+            newlabel=tk.Label(self,text="Query Type Sum Selected!")
+            newlabel.place(relx=0.5,rely=0.2,relwidth=0.4,relheight=0.1)
+
+        label1=ttk.Label(self,text="What's your query Type?")
+        label1.place(relx=0.1,rely=0.1,relwidth=0.6,relheight=0.1)
+
+        button_min=tk.Button(self,text="Min",command=set_query_min, font=30)
+        button_min.place(relx=0.2,rely=0.2,relwidth=0.2,relheight=0.05)
+
+        button_max=tk.Button(self,text="Max",command=set_query_max, font=30)
+        button_max.place(relx=0.2,rely=0.25,relwidth=0.2,relheight=0.05)
+
+        button_mean=tk.Button(self,text="Mean",command=set_query_mean, font=30)
+        button_mean.place(relx=0.2,rely=0.3,relwidth=0.2,relheight=0.05)
+
+        button_count=tk.Button(self,text="Count",command=set_query_count, font=30)
+        button_count.place(relx=0.2,rely=0.35,relwidth=0.2,relheight=0.05)
+
+        button_sum=tk.Button(self,text="Sum",command=set_query_sum, font=30)
+        button_sum.place(relx=0.2,rely=0.4,relwidth=0.2,relheight=0.05)
+   
+        # create an entry for lambda
+        def save_lambda():
+            global lambda_value
+            lambda_value=entry_lambda.get()
+            print(lambda_value)
+
+        label_lambda=ttk.Label(self,text="Type in an arbitrary value for lambda")
+        label_lambda.place(relx=0.1,rely=0.5,relwidth=0.6,relheight=0.1)
+
+        entry_lambda=tk.Entry(self)
+        entry_lambda.place(relx=0.1,rely=0.65,relwidth=0.6,relheight=0.1)
+
+        save_entry_button=tk.Button(self,text="Save", command=save_lambda, font=30)
+        save_entry_button.place(relx=0.8,rely=0.65,relwidth=0.15,relheight=0.1)
+
+# third window frame page2 
+class Page2(tk.Frame):  
+    def __init__(self, parent, controller): 
+        tk.Frame.__init__(self, parent) 
+        label = ttk.Label(self, text ="Page 2", font = LARGEFONT) 
+        label.grid(row = 0, column = 4, padx = 10, pady = 10) 
+   
+        # button to show frame 2 with text 
+        # layout2 
+        button1 = ttk.Button(self, text ="Page 1", 
+                            command = lambda : controller.show_frame(Page1)) 
+      
+        # putting the button in its place by  
+        # using grid 
+        button1.grid(row = 1, column = 1, padx = 10, pady = 10) 
+   
+        # button to show frame 3 with text 
+        # layout3 
+        button2 = ttk.Button(self, text ="Startpage", 
+                            command = lambda : controller.show_frame(StartPage)) 
+      
+        # putting the button in its place by 
+        # using grid 
+        button2.grid(row = 2, column = 1, padx = 10, pady = 10) 
+   
+   
+# Driver Code 
+app = tkinterApp() 
+app.mainloop() 
