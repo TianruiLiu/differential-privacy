@@ -41,7 +41,7 @@ class tkinterApp(tk.Tk):
    
         # iterating through a tuple consisting 
         # of the different page layouts 
-        for F in (StartPage, Page1, Page2): 
+        for F in (StartPage, Page1, Page2, Page3): 
    
             frame = F(container, self) 
    
@@ -174,7 +174,7 @@ class Page1(tk.Frame):
             global lambda_value
             lambda_value=entry_lambda.get()
             print(lambda_value)
-            newlabel=tk.Label(self,text="Lambda= "+lambda_value+"is Saved!")
+            newlabel=tk.Label(self,text="Lambda= "+lambda_value+" is Saved!")
             newlabel.place(relx=0.5,rely=0.75,relwidth=0.4,relheight=0.1)
 
         label_lambda=ttk.Label(self,text="Type in an arbitrary value for lambda")
@@ -186,12 +186,21 @@ class Page1(tk.Frame):
         save_entry_button=tk.Button(self,text="Save", command=save_lambda, font=30)
         save_entry_button.place(relx=0.8,rely=0.65,relwidth=0.15,relheight=0.1)
 
-# third window frame page2 
+# third window frame page2: enter target column and condition(s)
 class Page2(tk.Frame):  
     def __init__(self, parent, controller): 
         tk.Frame.__init__(self, parent) 
         label = ttk.Label(self, text ="Enter Target Column and Condition(s)", font = LARGEFONT) 
         label.grid(row = 0, column = 4, padx = 10, pady = 10) 
+
+        # button to show frame 2 with text 
+        # layout2 
+        button3 = ttk.Button(self, text ="Next Page", 
+                            command = lambda : controller.show_frame(Page3)) 
+      
+        # putting the button in its place by  
+        # using grid 
+        button3.place(relx=0.2,rely=0.8,relwidth=0.2,relheight=0.1) 
 
         # create an entry for target column
         label_column=ttk.Label(self,text="What's your target column?")
@@ -227,7 +236,18 @@ class Page2(tk.Frame):
         save_condition_button=tk.Button(self,text="Save", command=save_condition, font=30)
         save_condition_button.place(relx=0.8,rely=0.6,relwidth=0.15,relheight=0.1)
         
-   
+# second window frame page1: choose query type and lambda
+class Page3(tk.Frame): 
+      
+    def __init__(self, parent, controller): 
+          
+        tk.Frame.__init__(self, parent) 
+        label = ttk.Label(self, text ="Result Display!", font = LARGEFONT) 
+        label.grid(row = 0, column = 4, padx = 10, pady = 10) 
+
+        label_result=ttk.Label(self, text ="The calculated result is: ") 
+        label_result.place(relx=0.1,rely=0.4,relwidth=0.8,relheight=0.1)
+          
    
 # Driver Code 
 app = tkinterApp() 
