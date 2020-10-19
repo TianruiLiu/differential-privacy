@@ -174,6 +174,8 @@ class Page1(tk.Frame):
             global lambda_value
             lambda_value=entry_lambda.get()
             print(lambda_value)
+            newlabel=tk.Label(self,text="Lambda= "+lambda_value+"is Saved!")
+            newlabel.place(relx=0.5,rely=0.75,relwidth=0.4,relheight=0.1)
 
         label_lambda=ttk.Label(self,text="Type in an arbitrary value for lambda")
         label_lambda.place(relx=0.1,rely=0.5,relwidth=0.6,relheight=0.1)
@@ -188,26 +190,43 @@ class Page1(tk.Frame):
 class Page2(tk.Frame):  
     def __init__(self, parent, controller): 
         tk.Frame.__init__(self, parent) 
-        label = ttk.Label(self, text ="Page 2", font = LARGEFONT) 
+        label = ttk.Label(self, text ="Enter Target Column and Condition(s)", font = LARGEFONT) 
         label.grid(row = 0, column = 4, padx = 10, pady = 10) 
-   
-        # button to show frame 2 with text 
-        # layout2 
-        button1 = ttk.Button(self, text ="Page 1", 
-                            command = lambda : controller.show_frame(Page1)) 
-      
-        # putting the button in its place by  
-        # using grid 
-        button1.grid(row = 1, column = 1, padx = 10, pady = 10) 
-   
-        # button to show frame 3 with text 
-        # layout3 
-        button2 = ttk.Button(self, text ="Startpage", 
-                            command = lambda : controller.show_frame(StartPage)) 
-      
-        # putting the button in its place by 
-        # using grid 
-        button2.grid(row = 2, column = 1, padx = 10, pady = 10) 
+
+        # create an entry for target column
+        label_column=ttk.Label(self,text="What's your target column?")
+        label_column.place(relx=0.1,rely=0.2,relwidth=0.6,relheight=0.1)
+
+        def save_column():
+            global target_column
+            target_column=entry_column.get()
+            print(target_column)
+            newlabel=tk.Label(self,text="Target column is set as "+entry_column.get())
+            newlabel.place(relx=0.1,rely=0.4,relwidth=0.6,relheight=0.1)
+
+        entry_column=tk.Entry(self)
+        entry_column.place(relx=0.1,rely=0.3,relwidth=0.6,relheight=0.1)
+
+        save_column_button=tk.Button(self,text="Save", command=save_column, font=30)
+        save_column_button.place(relx=0.8,rely=0.3,relwidth=0.15,relheight=0.1)
+
+        # create an entry for condition(s)
+        label_condition=ttk.Label(self,text="What's your query condition(s)?")
+        label_condition.place(relx=0.1,rely=0.5,relwidth=0.6,relheight=0.1)
+
+        def save_condition():
+            global query_condition
+            query_condition=entry_condition.get()
+            print(query_condition)
+            newlabel=tk.Label(self,text="Query condition is set as "+entry_condition.get())
+            newlabel.place(relx=0.1,rely=0.7,relwidth=0.6,relheight=0.1)
+
+        entry_condition=tk.Entry(self)
+        entry_condition.place(relx=0.1,rely=0.6,relwidth=0.6,relheight=0.1)
+
+        save_condition_button=tk.Button(self,text="Save", command=save_condition, font=30)
+        save_condition_button.place(relx=0.8,rely=0.6,relwidth=0.15,relheight=0.1)
+        
    
    
 # Driver Code 
