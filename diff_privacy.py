@@ -14,7 +14,6 @@ from tkinter import ttk
 from process_query import *
 
 
-
   #--constant declaration
 LARGEFONT =("Verdana", 25) 
 HEIGHT=1000
@@ -79,6 +78,7 @@ class StartPage(tk.Frame):
             input = filedialog.askopenfile(initialdir="/")
             df=pd.read_csv(input)
 
+
         import_button= tk.Button(self, text="Select An Input File",command = lambda:file_opener(), bg='#d7c6cf',fg='#a2798f')
         import_button.place(relx=0.3,rely=0.4,relwidth=0.4,relheight=0.2)
 
@@ -114,14 +114,14 @@ class Page1(tk.Frame):
         # pick query type
         def set_query_min():
             global query_type
-            query_type="min"
+            query_type="Min"
             print(query_type)
             newlabel=tk.Label(self,text="Query Type Min Selected!")
             newlabel.place(relx=0.5,rely=0.2,relwidth=0.4,relheight=0.1)
 
         def set_query_max():
             global query_type
-            query_type="max"
+            query_type="Max"
             print(query_type)
             button_min['bg']='red'
             newlabel=tk.Label(self,text="Query Type Max Selected!")
@@ -129,7 +129,7 @@ class Page1(tk.Frame):
 
         def set_query_mean():
             global query_type
-            query_type="mean"
+            query_type="Mean"
             print(query_type)
             button_min['bg']='red'
             newlabel=tk.Label(self,text="Query Type Mean Selected!")
@@ -137,7 +137,7 @@ class Page1(tk.Frame):
 
         def set_query_count():
             global query_type
-            query_type="count"
+            query_type="Count"
             print(query_type)
             button_min['bg']='red'
             newlabel=tk.Label(self,text="Query Type Count Selected!")
@@ -145,7 +145,7 @@ class Page1(tk.Frame):
 
         def set_query_sum():
             global query_type
-            query_type="sum"
+            query_type="Sum"
             print(query_type)
             button_min['bg']='red'
             newlabel=tk.Label(self,text="Query Type Sum Selected!")
@@ -174,7 +174,7 @@ class Page1(tk.Frame):
             global lambda_value
             lambda_value=entry_lambda.get()
             print(lambda_value)
-            newlabel=tk.Label(self,text="Lambda= "+lambda_value+" is Saved!")
+            newlabel=tk.Label(self,text="Lambda= "+lambda_value + " is Saved!")
             newlabel.place(relx=0.5,rely=0.75,relwidth=0.4,relheight=0.1)
 
         label_lambda=ttk.Label(self,text="Type in an arbitrary value for lambda")
@@ -240,13 +240,21 @@ class Page2(tk.Frame):
 class Page3(tk.Frame):
 
     def __init__(self, parent, controller):
+        global df, query_condition, target_column, query_type, lambda_value
         tk.Frame.__init__(self, parent) 
         label = ttk.Label(self, text ="Result Display!", font = LARGEFONT) 
         label.grid(row = 0, column = 4, padx = 10, pady = 10)
 
-        label_result=ttk.Label(self, text ="The calculated result is: ")
-        label_result.place(relx=0.1,rely=0.4,relwidth=0.8,relheight=0.1)
-          
+        def see_result():
+            global df, query_condition, target_column, query_type, lambda_value
+            result = processOneQuery(df, query_condition, target_column, query_type, lambda_value)
+            result = result.item(0)
+            label_result = ttk.Label(self, text="The calculated result is: "+ str(result),font=30)
+            label_result.place(relx=0.1, rely=0.4, relwidth=0.8, relheight=0.1)
+
+        result_button = tk.Button(self, text="See the final result", command=see_result, font=30)
+        result_button.place(relx=0.25, rely=0.2, relwidth=0.5, relheight=0.1)
+
    
 # Driver Code
 app = tkinterApp() 

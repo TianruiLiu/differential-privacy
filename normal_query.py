@@ -28,7 +28,7 @@ def trueResult(dataframe, conditionList, attribute, queryType):
         result=select[attribute].max()
     elif queryType=="Mean":
         result=select[attribute].mean()
-    return result
+    return result.item(0)
 
 # This is a function that parse a string of condition into a python condition
 # The string is splitted in order to be parsed.

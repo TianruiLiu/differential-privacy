@@ -5,6 +5,7 @@ import pandas as pd
 def processOneQuery(dataframe, conditionStringList, attribute, queryType,paramLambda):
     conditionList=[]
 
+    paramLambda = int(paramLambda)
     minVal = dataframe[attribute].min()
     maxVal = dataframe[attribute].max()
     sensitivity = 0
@@ -31,8 +32,8 @@ def processOneQuery(dataframe, conditionStringList, attribute, queryType,paramLa
 
 if __name__=="__main__":
     df = pd.read_csv('test.csv')
-    conditionStringList=["Age > 30", "Age < 40"]
+    conditionStringList=["Age > 20", "Age < 30"]
     for i in range(100):
-        result=processOneQuery(df,conditionStringList,"Age", "Count", 4)
+        result=processOneQuery(df,conditionStringList,"Age", "Count", 1)
         print(result)
 
