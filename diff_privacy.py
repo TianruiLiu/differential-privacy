@@ -7,22 +7,22 @@ Author:
 Tianrui Liu; Qingru Zhang
 '''
 #IMPORT PACKAGES
-import csv
-import pandas as pd
-import sys
-import requests
-from PIL import Image, ImageTk
+
 from tkinter import filedialog
 import tkinter as tk 
 from tkinter import ttk 
-   
+from process_query import *
+
+
+
   #--constant declaration
 LARGEFONT =("Verdana", 25) 
 HEIGHT=1000
 WIDTH=800
 
 class tkinterApp(tk.Tk): 
-      
+
+
     # __init__ function for class tkinterApp  
     def __init__(self, *args, **kwargs):  
           
@@ -75,9 +75,9 @@ class StartPage(tk.Frame):
         
         # create an input button
         def file_opener():
+            global df
             input = filedialog.askopenfile(initialdir="/")
             df=pd.read_csv(input)
-            return df
 
         import_button= tk.Button(self, text="Select An Input File",command = lambda:file_opener(), bg='#d7c6cf',fg='#a2798f')
         import_button.place(relx=0.3,rely=0.4,relwidth=0.4,relheight=0.2)
@@ -225,7 +225,7 @@ class Page2(tk.Frame):
 
         def save_condition():
             global query_condition
-            query_condition=entry_condition.get()
+            query_condition=entry_condition.get().split(";")
             print(query_condition)
             newlabel=tk.Label(self,text="Query condition is set as "+entry_condition.get())
             newlabel.place(relx=0.1,rely=0.7,relwidth=0.6,relheight=0.1)
@@ -237,18 +237,17 @@ class Page2(tk.Frame):
         save_condition_button.place(relx=0.8,rely=0.6,relwidth=0.15,relheight=0.1)
         
 # second window frame page1: choose query type and lambda
-class Page3(tk.Frame): 
-      
-    def __init__(self, parent, controller): 
-          
+class Page3(tk.Frame):
+
+    def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent) 
         label = ttk.Label(self, text ="Result Display!", font = LARGEFONT) 
-        label.grid(row = 0, column = 4, padx = 10, pady = 10) 
+        label.grid(row = 0, column = 4, padx = 10, pady = 10)
 
-        label_result=ttk.Label(self, text ="The calculated result is: ") 
+        label_result=ttk.Label(self, text ="The calculated result is: ")
         label_result.place(relx=0.1,rely=0.4,relwidth=0.8,relheight=0.1)
           
    
-# Driver Code 
+# Driver Code
 app = tkinterApp() 
 app.mainloop() 

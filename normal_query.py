@@ -1,11 +1,17 @@
-import csv
-import pandas as pd
-import numpy as np
-from normalize import *
+'''
+File Description:
+This file contains a function to parse conditions from string to real conditions
+and a function to return real results from a database
 
+Author:
+Tianrui Liu; Qingru Zhang
+'''
+
+
+# This is the function for return true result of a query from a given database.
 def trueResult(dataframe, conditionList, attribute, queryType):
-    finalCondition = 1
 
+    finalCondition = 1
     for condition in conditionList:
         finalCondition &= condition
 
@@ -24,7 +30,8 @@ def trueResult(dataframe, conditionList, attribute, queryType):
         result=select[attribute].mean()
     return result
 
-
+# This is a function that parse a string of condition into a python condition
+# The string is splitted in order to be parsed.
 def parseCondition(dataframe, conditionString):
 
     conditionStringList=conditionString.split()
@@ -45,36 +52,3 @@ def parseCondition(dataframe, conditionString):
     elif operator =="<=":
         condition = dataframe[attribute] <= number
     return condition
-
-def parseNormalizedCondition(dataframe, conditionString,minVal,maxVal):
-
-    conditionStringList=conditionString.split()
-    attribute=conditionStringList[0]
-    operator=conditionStringList[1]
-    stringNumber=conditionStringList[2]
-    number = eval(stringNumber)
-    number = (number-minVal)/(maxVal-minVal)
-
-    condition = 0
-    if operator =="=":
-        condition = dataframe[attribute] == number
-    elif operator ==">":
-        condition = dataframe[attribute] > number
-    elif operator ==">=":
-        condition = dataframe[attribute] >= number
-    elif operator =="<":
-        condition = dataframe[attribute] < number
-    elif operator =="<=":
-        condition = dataframe[attribute] <= number
-    return condition
-
-
-if __name__=="__main__":
-
-    df = pd.read_csv('test.csv')
-
-    conditionList=[df["Age"] > 30, df["Age"] < 40]
-
-
-    result=trueResult(df,conditionList,"Age","Count")
-    print(result)
