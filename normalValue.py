@@ -10,7 +10,7 @@ def trueResult(dataframe, conditionList, attribute, queryType):
         finalCondition &= condition
 
     select=dataframe[finalCondition]
-    print(select)
+
     result=0
     if queryType=="Count":
         result=select[attribute].count()
@@ -73,17 +73,8 @@ if __name__=="__main__":
 
     df = pd.read_csv('test.csv')
 
-    conditionList=[]
-    condition1 = "Height(cm) > 170"
-    condition2 = "Height(cm) < 180"
-    minVal=df["Height(cm)"].min()
-    maxVal=df["Height(cm)"].max()
-
-    normalize(df, "Height(cm)", minVal, maxVal)
-    print(df["Height(cm)"])
-    conditionList.append(parseNormalizedCondition(df,condition1,minVal,maxVal))
-    conditionList.append(parseNormalizedCondition(df,condition2,minVal,maxVal))
+    conditionList=[df["Age"] > 30, df["Age"] < 40]
 
 
-    result=trueResult(df,conditionList,"Height(cm)","Max")
-
+    result=trueResult(df,conditionList,"Age","Count")
+    print(result)
