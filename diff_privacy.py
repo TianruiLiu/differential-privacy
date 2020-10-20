@@ -178,7 +178,7 @@ class Page1(tk.Frame):
             newlabel=tk.Label(self,text="Lambda= "+lambda_value + " is Saved!")
             newlabel.place(relx=0.5,rely=0.75,relwidth=0.4,relheight=0.1)
 
-        label_lambda=ttk.Label(self,text="Type in an arbitrary value for lambda")
+        label_lambda=ttk.Label(self,text="Type in a suitable value for epsilon")
         label_lambda.place(relx=0.1,rely=0.5,relwidth=0.6,relheight=0.1)
 
         entry_lambda=tk.Entry(self)
