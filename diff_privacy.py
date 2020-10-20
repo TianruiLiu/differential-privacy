@@ -116,6 +116,7 @@ class Page1(tk.Frame):
             global query_type
             query_type="Min"
             print(query_type)
+            button_min['bg'] = 'red'
             newlabel=tk.Label(self,text="Query Type Min Selected!")
             newlabel.place(relx=0.5,rely=0.2,relwidth=0.4,relheight=0.1)
 
@@ -123,7 +124,7 @@ class Page1(tk.Frame):
             global query_type
             query_type="Max"
             print(query_type)
-            button_min['bg']='red'
+            button_max['bg']='red'
             newlabel=tk.Label(self,text="Query Type Max Selected!")
             newlabel.place(relx=0.5,rely=0.2,relwidth=0.4,relheight=0.1)
 
@@ -131,7 +132,7 @@ class Page1(tk.Frame):
             global query_type
             query_type="Mean"
             print(query_type)
-            button_min['bg']='red'
+            button_mean['bg']='red'
             newlabel=tk.Label(self,text="Query Type Mean Selected!")
             newlabel.place(relx=0.5,rely=0.2,relwidth=0.4,relheight=0.1)
 
@@ -139,7 +140,7 @@ class Page1(tk.Frame):
             global query_type
             query_type="Count"
             print(query_type)
-            button_min['bg']='red'
+            button_count['bg']='red'
             newlabel=tk.Label(self,text="Query Type Count Selected!")
             newlabel.place(relx=0.5,rely=0.2,relwidth=0.4,relheight=0.1)
 
@@ -147,7 +148,7 @@ class Page1(tk.Frame):
             global query_type
             query_type="Sum"
             print(query_type)
-            button_min['bg']='red'
+            button_sum['bg']='red'
             newlabel=tk.Label(self,text="Query Type Sum Selected!")
             newlabel.place(relx=0.5,rely=0.2,relwidth=0.4,relheight=0.1)
 
